@@ -1,0 +1,20 @@
+# Set up the Rust toolchain.
+language: rust
+#rust:
+#  - 1.22.0
+rust:
+  - stable
+  - nightly
+
+# Allow for occasional compiler breakage on nightly Rust.
+matrix:
+  allow_failures:
+    - rust: nightly
+
+sudo: false
+os:
+  - linux
+
+cache: cargo
+script:
+  - cargo build --verbose --all
