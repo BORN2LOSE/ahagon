@@ -12,9 +12,7 @@ matrix:
     - rust: nightly
 
 sudo: false
-os:
-  - linux
+os: linux
 
 cache: cargo
-script:
-  - cargo build --verbose --all
+script: cargo build --verbose --all
