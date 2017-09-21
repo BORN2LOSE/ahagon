@@ -1,7 +1,6 @@
 # Set up the Rust toolchain.
 language: rust
-#rust:
-#  - 1.22.0
+
 rust:
   - stable
   - nightly
@@ -13,6 +12,10 @@ matrix:
 
 sudo: false
 os: linux
-
+before_install:
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+      sudo apt-get -qq update
+      && sudo apt-get install libgtk-3-dev;
+  fi
 cache: cargo
 script: cargo build --verbose --all

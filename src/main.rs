@@ -1,11 +1,11 @@
 extern crate gtk;
 
-pub mod start {
+pub mod launch {
     use gtk;
     use gtk::prelude::*;
     use gtk::{Button, Window, WindowType};
 
-    pub fn launch() {
+    pub fn start() {
         if gtk::init().is_err() {
             println!("Failed to initialize Ahagon GTK.");
             return;
@@ -33,5 +33,5 @@ pub mod start {
 
 
 fn main() {
-    start::launch();
+    launch::start();
 }
