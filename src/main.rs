@@ -4,5 +4,7 @@ mod core;
 
 #[cfg(target_os = "linux")]
 fn main() {
-    core::gui::launch();
+    if cfg!(target_os = "linux") {
+        core::gui::launch();
+    }
 }
