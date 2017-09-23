@@ -8,3 +8,4 @@ version = "0.2.0"
 features = ["v3_10"]
 
 [dependencies]
+gdk = "0.6.0"
