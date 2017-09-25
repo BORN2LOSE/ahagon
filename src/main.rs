@@ -1,5 +1,5 @@
 extern crate gtk;
-extern crate gdk;
+// extern crate gdk;
 
 mod core;
 

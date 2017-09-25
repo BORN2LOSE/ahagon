@@ -2,13 +2,32 @@ pub mod gui {
     use gtk;
     use gtk::prelude::*;
 
-    use gtk::{Builder, Button, MessageDialog, Window};
+    // Some work in progress.
+    #[allow(unused_imports)]
+    use gtk::{Builder, Button, MessageDialog, AboutDialog, FileChooserDialog, FileChooserAction,
+              ResponseType, Window};
+
+    // make moving clones into closures more convenient
+    macro_rules! clone {
+        (@param _) => ( _ );
+        (@param $x:ident) => ( $x );
+        ($($n:ident),+ => move || $body:expr) => (
+            {
+                $( let $n = $n.clone(); )+
+                move || $body
+            }
+        );
+        ($($n:ident),+ => move |$($p:tt),+| $body:expr) => (
+            {
+                $( let $n = $n.clone(); )+
+                move |$(clone!(@param $p),)+| $body
+            }
+        );
+    }
 
     // Добавить окно для кнопки `About`.
     fn click_about(button: &Button, builder: &Builder) {
-        let dialog: MessageDialog = builder.get_object("about_btn").expect(
-            "Couldn't get dialog",
-        );
+        let dialog: AboutDialog = builder.get_object("dialog").expect("Couldn't get dialog");
         if let Some(window) = button.get_toplevel().and_then(
             |w| w.downcast::<Window>().ok(),
         )
@@ -16,7 +35,6 @@ pub mod gui {
             dialog.set_transient_for(Some(&window));
         }
 
-        // println!("Authors: {:?}", dialog.get_authors());
         dialog.show();
         dialog.run();
         dialog.hide();
@@ -24,7 +42,7 @@ pub mod gui {
 
     pub fn launch() {
         if gtk::init().is_err() {
-            println!("Failed to initialize GTK.");
+            println!("Ahagon: failed to initialize GTK.");
             return;
         }
 
@@ -34,9 +52,29 @@ pub mod gui {
         let window: Window = builder.get_object("main_window").expect(
             "Couldn't get main_window",
         );
-        let _open: Button = builder.get_object("open_btn").expect(
+
+        /*
+         *   Open torrent file button
+         */
+        let open_file: Button = builder.get_object("open_btn").expect(
             "Couldn't get open_button",
         );
+        open_file.connect_clicked(clone!(window => move |_| {
+            let dialog = FileChooserDialog::new(Some("Choose a torrent file"),Some(&window),
+                                                        FileChooserAction::Open);
+            dialog.add_buttons(&[
+                ("Open", ResponseType::Ok.into()),
+                ("Cancel", ResponseType::Cancel.into())
+            ]);
+
+            dialog.set_select_multiple(true);
+            dialog.run();
+            let files = dialog.get_filenames();
+            dialog.destroy();
+
+            println!("Files: {:?}", files);
+        }));
+
         let _setting: Button = builder.get_object("setup_btn").expect(
             "Couldn't get setup_button",
         );
@@ -52,7 +90,6 @@ pub mod gui {
         });
 
         window.show_all();
-
         gtk::main();
     }
 }
