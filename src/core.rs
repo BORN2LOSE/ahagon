@@ -7,7 +7,7 @@ pub mod gui {
     use gtk::{Builder, Button, MessageDialog, AboutDialog, FileChooserDialog, FileChooserAction,
               ResponseType, Window};
 
-    // make moving clones into closures more convenient
+    // Make moving clones into closures more convenient
     macro_rules! clone {
         (@param _) => ( _ );
         (@param $x:ident) => ( $x );
@@ -25,7 +25,10 @@ pub mod gui {
         );
     }
 
-    // Добавить окно для кнопки `About`.
+    /*
+     *   Here we define `click_about` function which impelements the logic
+     *   that is responsible for pressing "About" button.
+     */
     fn click_about(button: &Button, builder: &Builder) {
         let dialog: AboutDialog = builder.get_object("dialog").expect("Couldn't get dialog");
         if let Some(window) = button.get_toplevel().and_then(
@@ -48,13 +51,13 @@ pub mod gui {
 
         let ui = include_str!("app.ui");
         let builder = Builder::new_from_string(ui);
-
         let window: Window = builder.get_object("main_window").expect(
             "Couldn't get main_window",
         );
 
         /*
-         *   Open torrent file button
+         *   Here we define `open_file` variable which implement
+         *   File Chooser Dialog.
          */
         let open_file: Button = builder.get_object("open_btn").expect(
             "Couldn't get open_button",
@@ -78,6 +81,11 @@ pub mod gui {
         let _setting: Button = builder.get_object("setup_btn").expect(
             "Couldn't get setup_button",
         );
+
+        /*
+         *   Here we define `about` variable which implement
+         *   "connect_clicked" method with `click_about` function.
+         */
         let about: Button = builder.get_object("about_btn").expect(
             "Couldn't get about_button",
         );
