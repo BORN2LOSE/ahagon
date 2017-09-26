@@ -3,9 +3,7 @@ extern crate gtk;
 
 mod core;
 
-#[cfg(target_os = "linux")]
+#[cfg(any(unix, target_os = "redox"))]
 fn main() {
-    if cfg!(target_os = "linux") {
-        core::gui::launch();
-    }
+    core::gui::launch();
 }
