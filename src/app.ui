@@ -13,7 +13,7 @@ Free software for free people.
 Author: Norman Ritchie. </property>
     <property name="website">https://github.com/BORN2LOSE/ahagon</property>
     <property name="website_label" translatable="yes">Source code</property>
-    <property name="logo_icon_name">gtk3-demo-symbolic.symbolic</property>
+    <property name="logo_icon_name">application-x-addon-symbolic</property>
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can_focus">False</property>
@@ -36,9 +36,25 @@ Author: Norman Ritchie. </property>
       <placeholder/>
     </child>
   </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">folder-new-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">applications-system-symbolic</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">star-new-symbolic</property>
+  </object>
   <object class="GtkApplicationWindow" id="main_window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Ahagon</property>
+    <property name="window_position">center-always</property>
     <property name="default_width">740</property>
     <property name="default_height">550</property>
     <property name="icon_name">octopi</property>
@@ -58,6 +74,8 @@ Author: Norman Ritchie. </property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="image">image1</property>
+                <property name="always_show_image">True</property>
               </object>
             </child>
             <child>
@@ -66,6 +84,8 @@ Author: Norman Ritchie. </property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="image">image2</property>
+                <property name="always_show_image">True</property>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -77,6 +97,8 @@ Author: Norman Ritchie. </property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="image">image3</property>
+                <property name="always_show_image">True</property>
               </object>
               <packing>
                 <property name="position">2</property>
