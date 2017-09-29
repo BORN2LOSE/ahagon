@@ -25,6 +25,33 @@ pub mod gui {
         );
     }
 
+
+    /*
+     *   Here we define `click_open` function which implement
+     *   File Chooser Dialog.
+     */
+    fn click_open(builder: &Builder, window: &Window) {
+        let open_file: Button = builder.get_object("open_btn").expect(
+            "Couldn't get open_button",
+        );
+        open_file.connect_clicked(clone!(window => move |_| {
+            let dialog = FileChooserDialog::new(Some("Choose a torrent file"),Some(&window),
+                                                        FileChooserAction::Open);
+            dialog.add_buttons(&[
+                ("Open", ResponseType::Ok.into()),
+                ("Cancel", ResponseType::Cancel.into())
+            ]);
+
+            dialog.set_select_multiple(true);
+            dialog.run();
+            let files = dialog.get_filenames();
+            dialog.destroy();
+
+            println!("Files: {:?}", files);
+        }));
+    }
+
+
     /*
      *   Here we define `click_about` function which impelements the logic
      *   that is responsible for pressing "About" button.
@@ -55,29 +82,6 @@ pub mod gui {
             "Couldn't get main_window",
         );
 
-        /*
-         *   Here we define `open_file` variable which implement
-         *   File Chooser Dialog.
-         */
-        let open_file: Button = builder.get_object("open_btn").expect(
-            "Couldn't get open_button",
-        );
-        open_file.connect_clicked(clone!(window => move |_| {
-            let dialog = FileChooserDialog::new(Some("Choose a torrent file"),Some(&window),
-                                                        FileChooserAction::Open);
-            dialog.add_buttons(&[
-                ("Open", ResponseType::Ok.into()),
-                ("Cancel", ResponseType::Cancel.into())
-            ]);
-
-            dialog.set_select_multiple(true);
-            dialog.run();
-            let files = dialog.get_filenames();
-            dialog.destroy();
-
-            println!("Files: {:?}", files);
-        }));
-
         let _setting: Button = builder.get_object("setup_btn").expect(
             "Couldn't get setup_button",
         );
@@ -90,6 +94,7 @@ pub mod gui {
             "Couldn't get about_button",
         );
 
+        click_open(&builder, &window);
         about.connect_clicked(move |x| click_about(x, &builder));
 
         window.connect_delete_event(|_, _| {
