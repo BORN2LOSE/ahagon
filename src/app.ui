@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkAboutDialog" id="dialog">
+  <object class="GtkAboutDialog" id="about_dialog">
     <property name="can_focus">False</property>
     <property name="resizable">False</property>
     <property name="type_hint">dialog</property>
@@ -67,7 +67,7 @@ Author: Norman Ritchie. </property>
           <object class="GtkHeaderBar" id="header">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">0</property>
+            <property name="spacing">3</property>
             <child>
               <object class="GtkButton" id="open_btn">
                 <property name="label" translatable="yes">Open</property>
@@ -121,23 +121,7 @@ Author: Norman Ritchie. </property>
           <placeholder/>
         </child>
         <child>
-          <object class="GtkStatusbar">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_left">10</property>
-            <property name="margin_right">10</property>
-            <property name="margin_start">10</property>
-            <property name="margin_end">10</property>
-            <property name="margin_top">6</property>
-            <property name="margin_bottom">6</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">2</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">4</property>
-          </packing>
+          <placeholder/>
         </child>
       </object>
     </child>

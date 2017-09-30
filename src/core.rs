@@ -27,7 +27,7 @@ pub mod gui {
 
 
     /*
-     *   Here we define `click_open` function which implement
+     *   Here we define `click_open` function which opening
      *   File Chooser Dialog.
      */
     fn click_open(builder: &Builder, window: &Window) {
@@ -57,7 +57,9 @@ pub mod gui {
      *   that is responsible for pressing "About" button.
      */
     fn click_about(button: &Button, builder: &Builder) {
-        let dialog: AboutDialog = builder.get_object("dialog").expect("Couldn't get dialog");
+        let dialog: AboutDialog = builder.get_object("about_dialog").expect(
+            "Couldn't get dialog",
+        );
         if let Some(window) = button.get_toplevel().and_then(
             |w| w.downcast::<Window>().ok(),
         )
@@ -76,6 +78,11 @@ pub mod gui {
             return;
         }
 
+        /*
+         *  First we get the file content ("name_of_glade_file.ui").
+         *  And call the Builder call.
+         *  Next, we define `window` var.
+         */
         let ui = include_str!("app.ui");
         let builder = Builder::new_from_string(ui);
         let window: Window = builder.get_object("main_window").expect(
@@ -102,6 +109,10 @@ pub mod gui {
             Inhibit(false)
         });
 
+        /*
+         *   Recursively shows a widget (any child widgets)
+         *   and start the gtk main loop.
+         */
         window.show_all();
         gtk::main();
     }
