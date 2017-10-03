@@ -15,7 +15,7 @@ pub fn launch() {
      *  And call the Builder call.
      *  Next, we define `window` var.
      */
-    let ui = include_str!("../interface/app.ui");
+    let ui = include_str!("../data/ui/app.ui");
     let builder = Builder::new_from_string(ui);
     let window: Window = builder.get_object("main_window").expect(
         "Couldn't get main_window",
