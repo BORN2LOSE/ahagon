@@ -1,4 +1,5 @@
 extern crate gtk;
+extern crate gio;
 
 mod core;
 mod gui;

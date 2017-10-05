@@ -1,36 +1,51 @@
 use gtk;
+use gio;
+
+use gio::prelude::*;
 use gtk::prelude::*;
-use gtk::{Builder, Button, Window};
+
+use gtk::{ApplicationWindow, Builder, Button};
+
+use std::env::args;
 
 use core::dialog;
-use core::settings;
+// use core::settings;
 
-pub fn launch_gtk() {
-    if gtk::init().is_err() {
-        println!("Ahagon: failed to initialize GTK.");
-        return;
-    }
+macro_rules! clone {
+        (@param _) => ( _ );
+        (@param $x:ident) => ( $x );
+        ($($n:ident),+ => move || $body:expr) => (
+            {
+                $( let $n = $n.clone(); )+
+                move || $body
+            }
+        );
+        ($($n:ident),+ => move |$($p:tt),+| $body:expr) => (
+            {
+                $( let $n = $n.clone(); )+
+                move |$(clone!(@param $p),)+| $body
+            }
+        );
+}
 
-    /*
-     *  First we get the file content ("name_of_glade_file.ui").
-     *  And call the Builder call.
-     *  Next, we define `window` var.
-     */
-    let ui = include_str!("../resources/glade/app.ui");
-    let builder = Builder::new_from_string(ui);
-    let main_window: Window = builder.get_object("main_window").expect(
+pub fn build_gtk(application: &gtk::Application) {
+
+    let glade_src = include_str!("../resources/glade/app.ui");
+    let builder = Builder::new_from_string(glade_src);
+
+    let main_window: ApplicationWindow = builder.get_object("main_window").expect(
         "Couldn't get main_window",
     );
 
-    main_window.connect_delete_event(|_, _| {
-        gtk::main_quit();
-        Inhibit(false)
-    });
-
+    main_window.set_application(application);
+    main_window.connect_delete_event(clone!(main_window => move |_, _| {
+            main_window.destroy();
+            Inhibit(false)
+    }));
 
     let open_button = dialog::click_open;
     let about_button = dialog::click_about;
-    let settings_button = settings::create_setting_window;
+    // let settings_button = settings::create_setting_window;
 
     /*
      *   Here we define `about` variable which implement
@@ -44,16 +59,21 @@ pub fn launch_gtk() {
         "Couldn't get setup_button",
     );
 
-
-    open_button(&builder, &main_window);
-    setting.connect_clicked(move |_| settings_button());
+    // open_button(&builder, &main_window);
+    // setting.connect_clicked(move |_| settings_button());
     // about_button and about = супер костыль.
     about.connect_clicked(move |x| about_button(x, &builder));
 
-    /*
-     *   Recursively shows a widget (any child widgets)
-     *   and start the gtk main loop.
-     */
     main_window.show_all();
-    gtk::main();
+}
+
+pub fn launch_gtk() {
+    let application =
+        gtk::Application::new("com.github.builder_basics", gio::ApplicationFlags::empty())
+            .expect("Initialization failed...");
+
+    application.connect_startup(move |app| { build_gtk(app); });
+    application.connect_activate(|_| {});
+
+    application.run(&args().collect::<Vec<_>>());
 }
