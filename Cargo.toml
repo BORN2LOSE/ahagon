@@ -1,11 +1,17 @@
 [package]
 name = "ahagon"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["Norman Ritchie <born2lose@protonmail.com>"]
+description = "Ahagon is Bittorrent client, written in Rust"
+readme = "README.md"
+license = "MIT"
+keywords = ["torrent", "bittorent", "client", "gtk"]
+repository = "https://github.com/BORN2LOSE/ahagon"
 
 [dependencies.gtk]
-version = "0.2.0"
-features = ["v3_10"]
+git = "https://github.com/gtk-rs/gtk.git"
+features = ["v3_16"]
+# version = "0.2.0"
 
-[dependencies]
-gdk = "0.6.0"
+[dependencies.gio]
+git = "https://github.com/gtk-rs/gio"
