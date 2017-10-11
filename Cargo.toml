@@ -11,7 +11,6 @@ repository = "https://github.com/BORN2LOSE/ahagon"
 [dependencies.gtk]
 git = "https://github.com/gtk-rs/gtk.git"
 features = ["v3_16"]
-# version = "0.2.0"
 
 [dependencies.gio]
 git = "https://github.com/gtk-rs/gio"

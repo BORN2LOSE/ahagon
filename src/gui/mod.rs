@@ -43,7 +43,7 @@ pub fn build_gtk(application: &gtk::Application) {
             Inhibit(false)
     }));
 
-    let open_button = dialog::click_open;
+    let _open_button = dialog::click_open;
     let about_button = dialog::click_about;
     // let settings_button = settings::create_setting_window;
 
@@ -55,7 +55,7 @@ pub fn build_gtk(application: &gtk::Application) {
         "Couldn't get about_button",
     );
 
-    let setting: Button = builder.get_object("setup_btn").expect(
+    let _setting: Button = builder.get_object("setup_btn").expect(
         "Couldn't get setup_button",
     );
 
@@ -70,7 +70,7 @@ pub fn build_gtk(application: &gtk::Application) {
 pub fn launch_gtk() {
     let application =
         gtk::Application::new("com.github.builder_basics", gio::ApplicationFlags::empty())
-            .expect("Initialization failed...");
+            .expect("Ahagon: Initialization failed...");
 
     application.connect_startup(move |app| { build_gtk(app); });
     application.connect_activate(|_| {});
